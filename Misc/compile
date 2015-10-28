@@ -1,0 +1,34 @@
+#!/bin/bash
+if [ $# -lt 1 ]; then
+	echo "Need param." >&2
+	exit -1
+fi
+if [ $# -eq 2 ]; then
+	arch=$2
+	if ! [[ "$arch" =~ ^[0-9]+$ ]]; then
+		echo "Architecture incorrect. (a)" >&2
+		exit -1
+	fi
+	if ! [ $arch -eq 32 ] && ! [ $arch -eq 64 ]; then
+		echo "Architecture incorrect. (b)" >&2
+		exit -1
+	fi
+else
+	arch=32
+fi
+if [ -f ${1} ]; then
+	if [[ $arch -eq 32 ]]; then
+		nasm -f elf32 -o "${1}.tempfile" ${1}
+		ld -m elf_i386 "${1}.tempfile"
+		rm "${1}.tempfile"
+		exit 0
+	elif [[ $arch -eq 64 ]]; then
+		nasm -f elf64 -o "${1}.tempfile" ${1}
+		ld -m elf_x86_64 "${1}.tempfile"
+		rm "${1}.tempfile"
+		exit 0
+	fi
+else
+	echo "'${1}' is not a file." >&2
+	exit -1
+fi
