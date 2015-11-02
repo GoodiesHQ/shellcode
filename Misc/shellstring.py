@@ -11,20 +11,20 @@ def foo(s, bits):
 		print "\tpush edx"
 	if bits == 64:
 		if len(s) == 2:
-			print "\tmov r8b, 0x%s" % s
+			print "\tmov r10b, 0x%s" % s
 		if len(s) == 4:
-			print "\tmov r8w, 0x%s" % s
+			print "\tmov r10w, 0x%s" % s
 		if len(s) == 6:
-			print "\tmov r8b, 0x%s\n\tshl r8, 16\n\tmov r9w, 0x%s\n\tor r8, r9" % (s[:2], s[2:])
+			print "\tmov r10b, 0x%s\n\tshl r10, 16\n\tmov r11w, 0x%s\n\tor r10, r11" % (s[:2], s[2:])
 		if len(s) == 8:
-			print "\tmov r8d, 0x%s" % s
+			print "\tmov r10d, 0x%s" % s
 		if len(s) == 10:
-			print "\tmov r8b, 0x%s\n\tshl r8, 32\n\tmov r9d, 0x%s\n\tor r8, r9" % (s[:2], s[2:])
+			print "\tmov r10b, 0x%s\n\tshl r10, 32\n\tmov r11d, 0x%s\n\tor r10, r11" % (s[:2], s[2:])
 		if len(s) == 12:
-			print "\tmov r8w, 0x%s\n\tshl r8, 32\n\tmov r9d, 0x%s\n\tor r8, r9" % (s[:4], s[4:])
+			print "\tmov r10w, 0x%s\n\tshl r10, 32\n\tmov r11d, 0x%s\n\tor r10, r11" % (s[:4], s[4:])
 		if len(s) == 14:
-			print "\tmov r8b, 0x%s\n\tshl r8, 16\n\tmov r9w, 0x%s\n\tor r8, r9\n\tshl r8, 32\n\tshr r9, 16\n\tmov r9d, 0x%s\n\tor r8, r9" % (s[:2], s[2:6], s[6:])
-		print "\tpush r8"
+			print "\tmov r10b, 0x%s\n\tshl r10, 16\n\tmov r11w, 0x%s\n\tor r10, r11\n\tshl r10, 32\n\tshr r11, 16\n\tmov r11d, 0x%s\n\tor r10, r11" % (s[:2], s[2:6], s[6:])
+		print "\tpush r10"
 
 def main():
 	if len(sys.argv) > 1:
@@ -44,23 +44,23 @@ def main():
 		if bits == 32:
 			print "\txor edx, edx"
 		elif bits == 64:
-			print "\txor r8, r8"
+			print "\txor r10, r10"
 		tmp = len(s) % mod
 		if tmp != 0:
 			if bits == 64:
-				print "\txor r9, r9"
+				print "\txor r11, r11"
 			a,s = s[:tmp], s[tmp:]
 			foo(a, bits)
 		else:
 			if bits == 32:
 				print "\tpush edx"
 			elif bits == 64:
-				print "\tpush r8"
+				print "\tpush r10"
 		for i in range(0, len(s), mod):
 			if bits == 32:
 				print "\tpush 0x%s" % s[i:i+mod]
 			if bits == 64:
-				print "\tmov r8, 0x%s\n\tpush r8" % s[i:i+mod]
+				print "\tmov r10, 0x%s\n\tpush r10" % s[i:i+mod]
 		print "\nSize: %i (0x%s)" % (size, hex(size))
 	else:
 		print('Usage:\n\t%s "String To Reverse" [32/64]' % sys.argv[0])
