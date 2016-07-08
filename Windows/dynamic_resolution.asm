@@ -8,7 +8,7 @@ _main:
     sub esp, 8
 
     xor edx, edx
-      push edx              ; Null terminator
+    push edx              ; Null terminator
     push DWORD 0x41797261    ; Ayra
     push DWORD 0x7262694c    ; rbiL
     push DWORD 0x64616f4c    ; daoL
@@ -72,12 +72,12 @@ _main:
     pop ebp
 
     xor edx, edx
-      mov dh, 0x73    ; s
-      shl edx, 8
-      mov dx, 0x7365    ; se
-      push edx
-      push 0x636f7250    ; corP
-      push 0x74697845    ; tixE
+    mov dh, 0x73    ; s
+    shl edx, 8
+    mov dx, 0x7365    ; se
+    push edx
+    push 0x636f7250    ; corP
+    push 0x74697845    ; tixE
     call get_k32_function
 
     push ebx
