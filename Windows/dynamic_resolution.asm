@@ -8,10 +8,10 @@ _main:
     sub esp, 8
 
     xor edx, edx
-  	push edx              ; Null terminator
-  	push DWORD 0x41797261	; Ayra
-  	push DWORD 0x7262694c	; rbiL
-  	push DWORD 0x64616f4c	; daoL
+      push edx              ; Null terminator
+    push DWORD 0x41797261    ; Ayra
+    push DWORD 0x7262694c    ; rbiL
+    push DWORD 0x64616f4c    ; daoL
     push esp
     push DWORD 0xC         ; length of above word
     call get_k32_function
@@ -21,11 +21,11 @@ _main:
     je .done
 
     xor edx, edx
-    mov dx, 0x7373	; ss
+    mov dx, 0x7373    ; ss
     push edx
-    push 0x65726464	; erdd
-    push 0x41636f72	; Acor
-    push 0x50746547	; PteG
+    push 0x65726464    ; erdd
+    push 0x41636f72    ; Acor
+    push 0x50746547    ; PteG
     push esp
     push 0xE
     call get_k32_function
@@ -72,12 +72,12 @@ _main:
     pop ebp
 
     xor edx, edx
-  	mov dh, 0x73	; s
-  	shl edx, 8
-  	mov dx, 0x7365	; se
-  	push edx
-  	push 0x636f7250	; corP
-  	push 0x74697845	; tixE
+      mov dh, 0x73    ; s
+      shl edx, 8
+      mov dx, 0x7365    ; se
+      push edx
+      push 0x636f7250    ; corP
+      push 0x74697845    ; tixE
     call get_k32_function
 
     push ebx
@@ -105,7 +105,7 @@ get_k32_function:
     add eax, [KERNEL32]                         ;// add the base address to get the actual address
     ;// take parameters from stack and move it into a local variable
 
-    ;mov [EX_TABLE], eax                         ;// Store the export table address locally
+    ;mov [EX_TABLE], eax                        ;// Store the export table address locally
     mov ebx, [eax + 0x20]                       ;// IMAGE_EXPORT_DIRECTORY.AddressOfNames - get the addess of function names so we can iterate through them.
     add ebx, [KERNEL32]                         ;// add the base address to get the actual address
 
@@ -145,9 +145,9 @@ get_k32_function:
 get_k32:                                        ;// returns the base address of Kernel32.dll
     xor eax, eax
     mov eax, [fs:0x30]                          ;// PEB struct
-    mov eax, [eax + 0x0C]	                      ;// Ldr
-    mov eax, [eax + 0x14]	                      ;// InMemoryOrderModuleList
+    mov eax, [eax + 0x0C]                       ;// Ldr
+    mov eax, [eax + 0x14]                       ;// InMemoryOrderModuleList
     mov eax, [eax]                              ;// linked list entry 2
     mov eax, [eax]                              ;// linked list entry 3
-    mov eax, [eax + 0x10]	                      ;// Base address of 3rd entry
+    mov eax, [eax + 0x10]                       ;// Base address of 3rd entry
     ret
